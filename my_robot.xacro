@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Xacro Properties for Parameters -->
+  <xacro:property name="init_x" value="${[1,4]}" />
+  <xacro:property name="init_y" value="${[2,-2]}" />
+  <xacro:property name="init_ln" value="${[3,3]}" />
+  <xacro:property name="init_w" value="${[4,4]}" />
+  <xacro:property name="init_h" value="${[5,5]}" />
+
+  <!-- Loop through components -->
+  <xacro:macro name="create_square" params="index x y ln w h">
+    <link name="link_square_${index}">
+      <pose>${x} ${y} ${h/2} 0 0 0</pose>
+      
+      <inertial>
+        <mass value="5" />
+        <origin rpy="0 0 0" xyz="0 0 ${h/2}" />
+        <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+
+      <collision name="collision_square_${index}">
+        <geometry>
+          <box size="${ln} ${w} ${h}" />
+        </geometry>
+      </collision>
+      
+      <visual name="visual_square_${index}">
+        <geometry>
+          <box size="${ln} ${w} ${h}" />
+        </geometry>
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <!-- Create squares -->
+  <xacro:create_square index="0" x="${init_x[0]}" y="${init_y[0]}" ln="${init_ln[0]}" w="${init_w[0]}" h="${init_h[0]}" />
+  <xacro:create_square index="1" x="${init_x[1]}" y="${init_y[1]}" ln="${init_ln[1]}" w="${init_w[1]}" h="${init_h[1]}" />
+
+</robot>
+
